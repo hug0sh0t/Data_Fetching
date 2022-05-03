@@ -17,7 +17,7 @@ class MarketData():
 
         headers = {
             'Accepts': 'application/json',
-            'X-CMC_PRO_API_KEY': 'f25522e3-f957-44bf-882c-12f70f33d361',
+            'X-CMC_PRO_API_KEY': '######',
         }
 
         session = Session()
