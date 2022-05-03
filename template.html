@@ -1,0 +1,350 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- universal metas -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=5,user-scalable=yes">
+    <meta name="description" content="Description">
+    <meta name="keywords" content="Keywords">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+
+    <!-- UC Mobile Browser  -->
+    <meta name="full-screen" content="yes">
+    <meta name="browsermode" content="application">
+
+    <link rel="shortcut icon" type="image/png" href="/staticmedia/whiterunway.svg">
+    <!-- Bootstrap CSS -->
+    <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" 
+    rel="stylesheet" 
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" 
+    crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" id="toggle_style" href="{% static 'css/light.css' %}" >
+
+
+<style>
+
+
+
+
+.filter-green{
+  filter: invert(64%) sepia(8%) saturate(2971%) hue-rotate(69deg) brightness(98%) contrast(102%);
+}
+
+.filter-red{
+  filter: invert(13%) sepia(100%) saturate(2956%) hue-rotate(350deg) brightness(107%) contrast(108%);
+}
+
+.filter-grey{
+  filter: invert(56%) sepia(6%) saturate(5%) hue-rotate(88deg) brightness(88%) contrast(91%);
+}
+
+.filter-white {
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(293deg) brightness(104%) contrast(102%);
+}
+  
+
+a {
+  text-decoration:none;
+}
+
+button:focus {outline:0;}
+.hide {
+    display: block;
+    opacity: 0.00;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+    }
+    
+.myDIV:hover + .hide {
+display: block;
+opacity: 1.0;
+
+}
+
+
+
+td {
+  color:white;
+
+}
+
+th {
+  color:grey;
+  }
+
+hr {
+    color:white;
+    
+}
+
+
+
+
+
+body {
+    background-color: #1f2022;
+
+}
+
+
+
+
+
+
+
+.darkercard {
+  background-color: #232427;
+}
+
+.card, .settings {
+    background-color: #323336;
+}
+
+
+.card:hover, .settings:hover {
+    background-color: #323336;
+    
+
+
+}
+
+
+h1, h2, h3, h4, h5, h6, p, label, center, small {
+    color: white;
+}
+
+
+#OnerotationFunction {
+  animation: rotation 1.5s 1 linear;
+  
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+
+
+
+</style>
+
+
+
+  </head>
+  <body id="MARKET_PANEL">
+    <noscript>Please Enable Javascript!</noscript>
+    <a href="/profiles/analyze/charts" style="cursor:pointer">
+    <div style="z-index:10000;font-weight:bold;position:fixed;bottom:5px;right:5px;color:#50C44A">
+    <img src="/staticmedia/comfy.svg" class="filter-white" style="width:50px;height:50px"/>
+    </div></a>
+    <center style="z-index:10000;position:fixed;left:20px;bottom:20px">
+      <strong style="color:#50C44A" id="update_notice"><img alt="logobaby"
+        class="filter-white" 
+        style="width:20px;height:20px"
+        id="OnerotationFunction" 
+        src="/staticmedia/world.svg"/></strong>   
+      </center> 
+            <div class="card" style="left:0px;right:0px;font-size:12px;padding:20px">
+                  
+                        
+                      <div style="font-size:20px;position:relative;color:grey">
+                        Total Cryptocurrency Marketcap:  <strong style="color:white">${{cmc.data.quote.USD.total_market_cap | floatformat }} </strong>
+
+                        {% if cmc.data.quote.USD.total_market_cap_yesterday_percentage_change > 0 %}
+                          <strong style="color:#50C44A"> +{{cmc.data.quote.USD.total_market_cap_yesterday_percentage_change | floatformat }} % </strong>
+                        {% elif cmc.data.quote.USD.total_market_cap_yesterday_percentage_change < 0 %}
+                          <strong style="color:crimson"> {{cmc.data.quote.USD.total_market_cap_yesterday_percentage_change | floatformat }} % </strong>
+                        {% else %}
+                          <strong style="color:grey"> {{cmc.data.quote.USD.total_market_cap_yesterday_percentage_change | floatformat }} % </strong>
+
+                        {% endif %}
+                      </div><br>
+
+                      <span class="col"><h6><small style="color:grey" class="my-1"><img src="/staticmedia/btc.svg" style="width:20px;height:20px"/> Bitcoin</small>
+                        <br><small style="color:grey;font-size:8px">dominance</small>  {{cmc.data.btc_dominance | floatformat}} % 
+                      
+                        {% if cmc.data.btc_dominance_24h_percentage_change > 0 %}
+                        <strong style="font-size:8px;color:#50C44A"> +{{cmc.data.btc_dominance_24h_percentage_change }} % </strong>
+                        {% elif cmc.data.btc_dominance_24h_percentage_change < 0 %}
+                        <strong style="font-size:8px;color:crimson"> {{cmc.data.btc_dominance_24h_percentage_change }} % </strong>
+                        {% else %}
+                        <strong style="font-size:8px;color:grey"> {{cmc.data.btc_dominance_24h_percentage_change}} % </strong>
+                        {% endif %}
+
+                      </h6> 
+
+                      {%for qloop in btc_cmcquote.data.BTC%}
+                        <h6>${{qloop.quote.USD.price|floatformat}}  
+                          {% if qloop.quote.USD.percent_change_24h >= 0 %}
+                          <small class="mx-1" style="color:#50C44A">+{{qloop.quote.USD.percent_change_24h|floatformat}}  %</small>
+                          {% elif qloop.quote.USD.percent_change_24h < 0%}
+                          <small class="mx-1" style="color:crimson">{{qloop.quote.USD.percent_change_24h|floatformat}}  %</small>
+
+                          {% else %} 
+
+                          {% endif %} 
+                        </h6>   
+                      {% endfor %}
+
+
+
+                        
+                      </span>
+                      
+                        <span class="col"><h6><small style="color:grey" class="my-1"><img src="/staticmedia/eth.svg" style="width:20px;height:20px"/> Ethereum</small> 
+                          <br><small style="color:grey;font-size:8px">dominance</small>  {{cmc.data.eth_dominance | floatformat }} % 
+
+                          {% if cmc.data.eth_dominance_24h_percentage_change > 0 %}
+                          <strong style="font-size:8px;color:#50C44A"> +{{cmc.data.eth_dominance_24h_percentage_change }} % </strong>
+                          {% elif cmc.data.eth_dominance_24h_percentage_change < 0 %}
+                          <strong style="font-size:8px;color:crimson"> {{cmc.data.eth_dominance_24h_percentage_change }} % </strong>
+                          {% else %}
+                          <strong style="font-size:8px;color:grey"> {{cmc.data.eth_dominance_24h_percentage_change }} % </strong>
+                          {% endif %}
+                        
+                        </h6> 
+
+
+                        {%for ethqloop in eth_cmcquote.data.ETH%}
+                        <h6>${{ethqloop.quote.USD.price|floatformat}}  
+                          {% if ethqloop.quote.USD.percent_change_24h >= 0 %}
+                          <small class="mx-1" style="color:#50C44A">+{{ethqloop.quote.USD.percent_change_24h|floatformat}}  %</small>
+                          {% elif ethqloop.quote.USD.percent_change_24h < 0%}
+                          <small class="mx-1" style="color:crimson">{{ethqloop.quote.USD.percent_change_24h|floatformat}}  %</small>
+
+                          {% else %} 
+
+                          {% endif %} 
+                        </h6>   
+                      {% endfor %}
+
+
+                        </span>
+                  
+
+                      
+                      <br><div style="color:grey">
+                          24HR Global Average:<br>
+                          Crypto Volume:  <strong style="color:white">${{cmc.data.quote.USD.total_volume_24h | floatformat}} </strong>
+                            {% if cmc.data.quote.USD.total_volume_24h_yesterday_percentage_change > 0 %}
+
+                              <strong style="color:#50C44A">+{{cmc.data.quote.USD.total_volume_24h_yesterday_percentage_change | floatformat}} %</strong><br>
+                            {% elif cmc.data.quote.USD.total_volume_24h_yesterday_percentage_change < 0 %}
+                            <strong style="color:crimson">{{cmc.data.quote.USD.total_volume_24h_yesterday_percentage_change | floatformat}} %</strong><br>
+
+                            {% else %}
+                              <strong style="color:grey">{{cmc.data.quote.USD.total_volume_24h_yesterday_percentage_change | floatformat}} %</strong><br>
+
+                            {% endif %}
+
+
+                          Defi Volume:  <strong style="color:white">${{cmc.data.quote.USD.defi_volume_24h | floatformat }} </strong>
+
+                          {% if cmc.data.quote.USD.defi_24h_percentage_change > 0 %} 
+                          <strong style="color:#50C44A">+{{cmc.data.quote.USD.defi_24h_percentage_change | floatformat}} %</strong><br>
+
+                        {% elif cmc.data.quote.USD.defi_24h_percentage_change < 0 %}
+                          <strong style="color:crimson">{{cmc.data.quote.USD.defi_24h_percentage_change | floatformat}} %</strong><br>
+                          {% else %}
+
+                          <strong style="color:grey">{{cmc.data.quote.USD.defi_24h_percentage_change | floatformat}} %</strong><br>
+
+                          {% endif %} 
+
+                        </div>
+                    </div>
+
+
+<!--FEAR AND GREED-->
+                  <div style="position:relative;width:100%;right:0px;left:0px">
+                              {% for fngloop in fng_data.data%}
+                        
+                        {% if fngloop.value_classification == "Extreme Fear"  %}
+                                <a href="https://alternative.me/crypto/fear-and-greed-index/" style="cursor:pointer;color:grey">
+                                  <div class="card" style="padding:15px;background:#e207073d"> 
+                                    <small style="color:white">Fear and Greed Index</small>
+                  
+                                    Sentiment:<h6 style="color:crimson"> {{fngloop.value_classification}}</h6>  
+                                    Level: <h6 style="color:crimson"> {{fngloop.value}} </h6>        
+                                  </div>
+                                </a>
+                          
+                          {% elif fngloop.value_classification == "Fear"  %}
+                              <a href="https://alternative.me/crypto/fear-and-greed-index/" style="cursor:pointer;color:grey">
+                                <div class="card" style="padding:20px;background:#e207073d"> 
+                                  <small style="color:white">Fear and Greed Index</small>
+                
+                                  Sentiment:<h6 style="color:crimson"> {{fngloop.value_classification}}</h6>  
+                                  Level: <h6 style="color:crimson"> {{fngloop.value}} </h6>        
+                                </div>
+                              </a>
+                    
+
+
+                        {% elif fngloop.value_classification == "Greed"  %}
+                          <a href="https://alternative.me/crypto/fear-and-greed-index/" style="cursor:pointer;color:grey">
+                            <div class="card" style="padding:15px"> 
+                              <small style="color:white">Fear and Greed Index</small>
+
+                              Sentiment:<h6 style="color:#50C44A"> {{fngloop.value_classification}}</h6>  
+                              Level: <h6 style="color:#50C44A"> {{fngloop.value}} </h6>        
+                            </div>
+                          </a> 
+
+                          {% elif fngloop.value_classification == "Moderate Greed"  %}
+                          <a href="https://alternative.me/crypto/fear-and-greed-index/" style="cursor:pointer;color:grey">
+                            <div class="card" style="padding:15px"> 
+                              <small style="color:white">Fear and Greed Index</small>
+    
+                              Sentiment:<h6 style="color:#50C44A"> {{fngloop.value_classification}}</h6>  
+                              Level: <h6 style="color:#50C44A"> {{fngloop.value}} </h6>        
+                            </div>
+                          </a> 
+
+                          {% elif fngloop.value_classification == "Extreme Greed"  %}
+                          <a href="https://alternative.me/crypto/fear-and-greed-index/" style="cursor:pointer;color:grey">
+                            <div class="card" style="padding:15px;background:#50C44A2a"> 
+                              <small style="color:white">Fear and Greed Index</small>
+     
+                              Sentiment:<h6 style="color:goldenrod"> {{fngloop.value_classification}}</h6>  
+                              Level: <h6 style="color:goldenrod"> {{fngloop.value}} </h6>        
+                            </div>
+                          </a>
+
+                          
+
+                          {% elif fngloop.value_classification == "Neutral"  %}
+
+                          <a href="https://alternative.me/crypto/fear-and-greed-index/" style="cursor:pointer;color:grey">
+                            <div class="card" style="padding:15px"> 
+                              <small style="color:grey">Fear and Greed Index</small>
+              
+                              Sentiment:<h6 style="color:grey"> {{fngloop.value_classification}}</h6>  
+                              Level: <h6 style="color:grey"> {{fngloop.value}} </h6>        
+                            </div>
+                          </a>
+
+                
+
+                          {% endif %}
+
+
+                              {% endfor %}
+                  </div> 
+                <!--FEAR AND GREED-->
+
+
+
+</body>
+
+</html>
