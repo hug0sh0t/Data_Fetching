@@ -19,11 +19,20 @@ class InvestigationRemodel(UpdateView):# CBV Generic Pocket Update
         current_investigation_transaction_hash = investigations.first().transaction_hash
         etherscanapiykey = ETHERSCANAPIKEY
 
-        # Status 1 = Success  / status 0 = Failed / status NULL = Not a real transaction
+        # (Transaction Receipt Status) Status 1 = Success  / status 0 = Failed / status NULL = Not a real transaction
         transaction_response = requests.get('https://api.etherscan.io/api?module=transaction&action=gettxreceiptstatus&txhash='+current_investigation_transaction_hash+'&apikey='+etherscanapiykey)
         transaction_validation_data = transaction_response.json()
         transaction_validation_status = transaction_validation_data['result'] 
-        print(transaction_validation_status['status'])
+        # print(transaction_validation_status['status'])
+        
+        # (Contract Execution Status) isError0 = successful transaction / isError1 = failed transaction
+        execution_transaction_response = requests.get('https://api.etherscan.io/api?module=transaction&action=getstatus&txhash='+current_investigation_transaction_hash+'&apikey='+etherscanapiykey)
+        execution_transaction_validation_data = execution_transaction_response.json()
+
+        # if it is a failed transaction, the error message is stored here
+        execution_transaction_validation_data_error_description = execution_transaction_validation_data['result']
+        
+
         if transaction_validation_status['status'] == "0":
             transaction_hash_input_color_code = '#FF9191'
             transaction_hash_input_message = " This is a Failed but Valid Ethereum transaction hash"
@@ -32,8 +41,9 @@ class InvestigationRemodel(UpdateView):# CBV Generic Pocket Update
             transaction_hash_input_message = " This is a Successful and Valid Ethereum transaction hash"
         else:
             transaction_hash_input_color_code = '#BEBEBE'
-            transaction_hash_input_message = " This is a not a valid Ethereum transaction hash"
+            transaction_hash_input_message = " This is a not a valid Ethereum transaction hash or is a pre Byzantium Fork transaction "
         context.update({
+            'failed_txhash_error_description':execution_transaction_validation_data_error_description['errDescription'],
             'transaction_hash_input_message':transaction_hash_input_message,
             'transaction_hash_input_color_code':transaction_hash_input_color_code,
             'etherscanapiykey':etherscanapiykey,
