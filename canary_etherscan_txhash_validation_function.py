@@ -32,6 +32,15 @@ class InvestigationRemodel(UpdateView):# CBV Generic Pocket Update
         # if it is a failed transaction, the error message is stored here
         execution_transaction_validation_data_error_description = execution_transaction_validation_data['result']
         
+        # Current ETH PRICE
+        last_eth_price_response = requests.get('https://api.etherscan.io/api?module=stats&action=ethprice&apikey='+etherscanapiykey)
+        last_eth_price_data = last_eth_price_response.json()
+        last_eth_price_data_result = last_eth_price_data['result'] 
+
+        # Total ETH Node Count
+        total_node_count_response = requests.get('https://api.etherscan.io/api?module=stats&action=nodecount&apikey='+etherscanapiykey)
+        total_node_count_response_data = total_node_count_response.json()
+        total_node_count_response_data_result = total_node_count_response_data['result']
 
         if transaction_validation_status['status'] == "0":
             transaction_hash_input_color_code = '#FF9191'
