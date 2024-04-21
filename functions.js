@@ -31,7 +31,7 @@ function relay_function() {
   setTimeout(function(){
 
     $('#update_notice').attr('id','OnerotationFunctionNULL');
-  },3000) // 5 seconds
+  },3000) // 3 seconds
 
   relay_function();
 
